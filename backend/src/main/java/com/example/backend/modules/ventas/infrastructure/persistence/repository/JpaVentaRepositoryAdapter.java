@@ -1,9 +1,9 @@
-package com.example.backend.modules.ventas.infrastructure.presistence.repository;
+package com.example.backend.modules.ventas.infrastructure.persistence.repository;
 
 import com.example.backend.modules.ventas.domain.model.Venta;
 import com.example.backend.modules.ventas.domain.ports.out.VentaRepository;
-import com.example.backend.modules.ventas.infrastructure.presistence.entity.VentaEntity;
-import com.example.backend.modules.ventas.infrastructure.presistence.mapper.VentaMapper;
+import com.example.backend.modules.ventas.infrastructure.persistence.entity.VentaEntity;
+import com.example.backend.modules.ventas.infrastructure.persistence.mapper.VentaMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +32,13 @@ public class JpaVentaRepositoryAdapter implements VentaRepository {
     @Override
     public List<Venta> findAllByUsuarioId(Long usuarioId) {
         return jpaVentaRepository.findByUsuarioId(usuarioId).stream()
+                .map(ventaMapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Venta> findAllByEstado(String estado) {
+        return jpaVentaRepository.findByEstado(estado).stream()
                 .map(ventaMapper::toDomain)
                 .collect(Collectors.toList());
     }

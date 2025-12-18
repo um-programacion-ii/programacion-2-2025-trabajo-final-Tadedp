@@ -36,13 +36,6 @@ public class JpaEventoRepositoryAdapter implements EventoRepository {
     }
 
     @Override
-    public Optional<Evento> update(Long id, Evento evento) {
-        EventoEntity eventoEntity = eventoMapper.toEntity(evento);
-        EventoEntity updatedEntity = jpaEventoRepository.save(eventoEntity);
-        return Optional.of(eventoMapper.toDomain(updatedEntity));
-    }
-
-    @Override
     public void deleteById(Long id) {
         jpaEventoRepository.deleteById(id);
     }

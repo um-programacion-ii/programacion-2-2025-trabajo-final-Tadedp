@@ -9,4 +9,5 @@ public interface VentaRepository {
     Optional<Venta> findById(Long id);
     Venta save(Venta venta);
     List<Venta> findAllByUsuarioId(Long usuarioId);
+    List<Venta> findAllByEstado(String estado);
 }

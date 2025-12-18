@@ -31,11 +31,11 @@ public class EventoMapper {
         eventoEntity.setPrecioEntrada(evento.getPrecioEntrada());
 
         TipoEventoEntity tipoEventoEntity = new TipoEventoEntity(
-                evento.getTipoEvento().getId(),
-                evento.getTipoEvento().getNombre(),
-                evento.getTipoEvento().getDescripcion()
+                evento.getEventoTipo().getId(),
+                evento.getEventoTipo().getNombre(),
+                evento.getEventoTipo().getDescripcion()
         );
-        eventoEntity.setTipoEvento(tipoEventoEntity);
+        eventoEntity.setEventoTipo(tipoEventoEntity);
 
         Set<IntegranteEntity> integrantesEntities = evento.getIntegrantes().stream()
                 .map(integrante -> {
@@ -58,9 +58,9 @@ public class EventoMapper {
         }
 
         TipoEvento tipoEvento = new TipoEvento(
-                eventoEntity.getTipoEvento().getId(),
-                eventoEntity.getTipoEvento().getNombre(),
-                eventoEntity.getTipoEvento().getDescripcion()
+                eventoEntity.getEventoTipo().getId(),
+                eventoEntity.getEventoTipo().getNombre(),
+                eventoEntity.getEventoTipo().getDescripcion()
         );
 
         Set<Integrante> integrantes = eventoEntity.getIntegrantes().stream()

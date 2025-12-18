@@ -32,6 +32,7 @@ public class EventoEntity {
 
     private String direccion;
 
+    @Column(columnDefinition = "TEXT")
     private String imagen;
 
     @Column(nullable = false)
@@ -45,7 +46,7 @@ public class EventoEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tipo_evento_id")
-    private TipoEventoEntity tipoEvento;
+    private TipoEventoEntity eventoTipo;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(

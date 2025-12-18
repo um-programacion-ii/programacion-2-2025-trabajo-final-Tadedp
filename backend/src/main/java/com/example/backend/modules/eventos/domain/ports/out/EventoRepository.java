@@ -9,6 +9,5 @@ public interface EventoRepository {
     List<Evento> findAll();
     Optional<Evento> findById(Long id);
     Evento save(Evento evento);
-    Optional<Evento> update(Long id, Evento evento);
     void deleteById(Long id);
 }

@@ -22,6 +22,6 @@ public class Evento {
     private int filaAsientos;
     private int columnAsientos;
     private BigDecimal precioEntrada;
-    private TipoEvento tipoEvento;
+    private TipoEvento eventoTipo;
     private Set<Integrante> integrantes = new HashSet<>();
 }
