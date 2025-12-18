@@ -1,11 +1,11 @@
-package com.example.backend.modules.ventas.infrastructure.presistence.mapper;
+package com.example.backend.modules.ventas.infrastructure.persistence.mapper;
 
 import com.example.backend.modules.eventos.infrastructure.persistence.entity.EventoEntity;
 import com.example.backend.modules.usuarios.infrastructure.persistence.entity.UsuarioEntity;
 import com.example.backend.modules.ventas.domain.model.AsientoVendido;
 import com.example.backend.modules.ventas.domain.model.Venta;
-import com.example.backend.modules.ventas.infrastructure.presistence.entity.AsientoVendidoEntity;
-import com.example.backend.modules.ventas.infrastructure.presistence.entity.VentaEntity;
+import com.example.backend.modules.ventas.infrastructure.persistence.entity.AsientoVendidoEntity;
+import com.example.backend.modules.ventas.infrastructure.persistence.entity.VentaEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
@@ -26,6 +26,7 @@ public class VentaMapper {
         ventaEntity.setResultado(venta.isResultado());
         ventaEntity.setDescripcion(venta.getDescripcion());
         ventaEntity.setEstado(venta.getEstado());
+        ventaEntity.setIntentos(venta.getIntentos());
 
         if (venta.getUsuarioId() != null) {
             UsuarioEntity usuarioEntity = new UsuarioEntity();
@@ -69,6 +70,7 @@ public class VentaMapper {
         venta.setResultado(ventaEntity.isResultado());
         venta.setDescripcion(ventaEntity.getDescripcion());
         venta.setEstado(ventaEntity.getEstado());
+        venta.setIntentos(ventaEntity.getIntentos());
 
         if (ventaEntity.getUsuario() != null) {
             venta.setUsuarioId(ventaEntity.getUsuario().getId());

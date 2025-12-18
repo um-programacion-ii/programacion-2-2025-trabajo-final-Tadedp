@@ -1,11 +1,11 @@
-package com.example.backend.modules.ventas.infrastructure.presistence.entity;
+package com.example.backend.modules.ventas.infrastructure.persistence.entity;
 
 import com.example.backend.modules.eventos.infrastructure.persistence.entity.EventoEntity;
 import com.example.backend.modules.usuarios.infrastructure.persistence.entity.UsuarioEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,14 +20,14 @@ public class VentaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column()
     private Long catedraVentaId;
 
     @Column(nullable = false)
-    private LocalDate fechaVenta;
+    private Instant fechaVenta;
 
     @Column(nullable = false)
-    private BigDecimal precioVenta;
+    private double precioVenta;
 
     @Column(nullable = false)
     private boolean resultado;
@@ -36,6 +36,9 @@ public class VentaEntity {
 
     @Column(nullable = false)
     private String estado;
+
+    @Column(nullable = false)
+    private int intentos;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "usuario_id", nullable = false)

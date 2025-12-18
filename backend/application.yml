@@ -1,3 +1,10 @@
+app:
+  catedra:
+    url: ${CATEDRA_URL}
+    token: ${CATEDRA_TOKEN}
+  proxy:
+    url: ${PROXY_URL:http://127.0.0.1:8081}
+
 spring:
   profiles:
     active: dev
@@ -22,23 +29,4 @@ spring:
     show-sql: true
     properties:
       hibernate:
-        format_sql: true
-
----
-spring:
-  config:
-    activate:
-      on-profile: mysql
-  datasource:
-    url: jdbc:mysql://localhost:3306/backend_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: backend_user
-    password: backend_pass
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true

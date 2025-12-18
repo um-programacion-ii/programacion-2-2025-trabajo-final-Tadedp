@@ -1,6 +1,6 @@
 package com.example.backend.modules.usuarios.infrastructure.persistence.entity;
 
-import com.example.backend.modules.ventas.infrastructure.presistence.entity.VentaEntity;
+import com.example.backend.modules.ventas.infrastructure.persistence.entity.VentaEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;

@@ -1,4 +1,4 @@
-package com.example.backend.modules.ventas.infrastructure.presistence.entity;
+package com.example.backend.modules.ventas.infrastructure.persistence.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,5 +24,7 @@ public class AsientoVendidoEntity {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "venta_id", nullable = false)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private VentaEntity venta;
 }
