@@ -1,16 +1,16 @@
 app:
   catedra:
-    url: ${CATEDRA_URL}
-    token: ${CATEDRA_TOKEN}
+    url: ${CATEDRA_URL:http://192.168.194.250:8080/api/endpoints/v1}
+    token: ${CATEDRA_TOKEN:}
   proxy:
-    url: ${PROXY_URL:http://127.0.0.1:8081}
+    url: ${PROXY_URL:http://proxy:8081}
   jwt:
-    secret: ${JWT_SECRET}
-    expiration: ${JWT_EXPIRATION:1800000}
+    secret: ${JWT_SECRET:secreto}
+    expiration: ${JWT_EXPIRATION:30000}
 
 spring:
   profiles:
-    active: dev
+    active: docker
 
 ---
 spring:
@@ -32,4 +32,23 @@ spring:
     show-sql: true
     properties:
       hibernate:
+        format_sql: true
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
