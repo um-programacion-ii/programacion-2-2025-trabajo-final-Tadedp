@@ -7,6 +7,7 @@ import com.example.backend.modules.ventas.infrastructure.persistence.mapper.Sesi
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.util.Optional;
 
 @Component
@@ -18,6 +19,11 @@ public class JpaSesionUsuarioRepositoryAdapter implements SesionUsuarioRepositor
     @Override
     public Optional<SesionUsuario> findByUsuarioId(Long usuarioId) {
         return jpaSesionUsuarioRepository.findById(usuarioId).map(sesionUsuarioMapper::toDomain);
+    }
+
+    @Override
+    public void deleteByFechaCreacionBefore(Instant fechaLimite) {
+        jpaSesionUsuarioRepository.deleteByFechaCreacionBefore(fechaLimite);
     }
 
     @Override

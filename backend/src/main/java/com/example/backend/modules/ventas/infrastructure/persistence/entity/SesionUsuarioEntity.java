@@ -29,4 +29,7 @@ public class SesionUsuarioEntity {
 
     @Column(name = "ultima_modificacion")
     private Instant ultimaModificacion;
+
+    @Column(nullable = false, updatable = false)
+    private Instant fechaCreacion;
 }

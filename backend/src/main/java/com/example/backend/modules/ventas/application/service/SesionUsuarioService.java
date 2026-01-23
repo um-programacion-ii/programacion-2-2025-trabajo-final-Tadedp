@@ -16,16 +16,20 @@ import java.util.List;
 public class SesionUsuarioService {
     private final SesionUsuarioRepository sesionUsuarioRepository;
 
-    @Transactional(readOnly = true)
+    @Transactional
     public SesionUsuario obtenerSesion(Long usuarioId) {
         return sesionUsuarioRepository.findByUsuarioId(usuarioId)
-                .orElse(new SesionUsuario(
-                        usuarioId,
-                        null,
-                        "INICIO",
-                        new ArrayList<>(),
-                        Instant.now())
-                );
+                .orElseGet(() -> {
+                    SesionUsuario nuevaSesion = new SesionUsuario(
+                            usuarioId,
+                            null,
+                            "INICIO",
+                            new ArrayList<>(),
+                            Instant.now(),
+                            Instant.now()
+                    );
+                    return sesionUsuarioRepository.save(nuevaSesion);
+                });
     }
 
     @Transactional
