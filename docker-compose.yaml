@@ -1,0 +1,110 @@
+version: '3.8'
+
+services:
+  mysql_local:
+    image: mysql:8.4
+    container_name: tf_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: backend_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+      TZ: America/Argentina/Mendoza
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - tf_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 --protocol=TCP -u root -p$${MYSQL_ROOT_PASSWORD} --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  backend:
+    build:
+      context: ./backend
+    container_name: tf_backend
+    depends_on:
+      mysql_local:
+        condition: service_healthy
+    environment:
+      TZ: America/Argentina/Mendoza
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-docker}
+
+      DB_URL: jdbc:mysql://mysql_local:3306/backend_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Argentina/Mendoza
+      DB_USERNAME: user
+      DB_PASSWORD: user
+
+      PROXY_URL: http://proxy:8081
+
+      CATEDRA_URL: http://192.168.194.250:8080/api/endpoints/v1
+      CATEDRA_TOKEN: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZHJ1YmVwIiwiZXhwIjoxODU1NTE5OTAwLCJhdXRoIjoiUk9MRV9VU0VSIiwiaWF0IjoxNzY5MTE5OTAwfQ.2Wm6ZLVJ6uNo6vhKYcLyjbTH2o-TjM0Ha8VaeGzthU5ftqB9--wqKOUWpYiKyKNT6K6aTr4reNjeSeV91a6f0Q
+
+      JWT_SECRET: 3e1177efa917e0ff0c8d43edc9d81dae46d03f09ee53d8b2bafa716f7a18527f
+      JWT_EXPIRATION: 60000
+
+      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: health,info
+      MANAGEMENT_ENDPOINT_HEALTH_PROBES_ENABLED: "true"
+    ports:
+      - "8080:8080" 
+    networks:
+      - tf_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 8080 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 25s
+    extra_hosts:
+      - "kafka:192.168.194.250"
+      - "redis:192.168.194.250"
+
+  proxy:
+    build:
+      context: ./proxy
+    container_name: tf_proxy
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      TZ: America/Argentina/Mendoza
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-docker}
+
+      BACKEND_URL: http://backend:8080
+
+      JWT_SECRET: 3e1177efa917e0ff0c8d43edc9d81dae46d03f09ee53d8b2bafa716f7a18527f
+      JWT_EXPIRATION: 60000
+
+      REDIS_HOST: 192.168.194.250
+      REDIS_PORT: 6379
+
+      KAFKA_URL: 192.168.194.250:9092
+
+      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: health,info
+      MANAGEMENT_ENDPOINT_HEALTH_PROBES_ENABLED: "true"
+    extra_hosts:
+      - "kafka:192.168.194.250"
+      - "redis:192.168.194.250"
+    ports:
+      - "8081:8081"
+    networks:
+      - tf_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 8081 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 25s
+
+volumes:
+  mysql_data:
+
+networks:
+  tf_network:
+    driver: bridge
