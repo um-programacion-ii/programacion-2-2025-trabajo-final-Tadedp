@@ -17,14 +17,16 @@ public class SesionUsuarioDtoMapper {
         SesionUsuario sesionUsuario = new SesionUsuario();
         sesionUsuario.setEventoId(sesionUsuarioRequest.getEventoId());
         sesionUsuario.setPasoActual(sesionUsuarioRequest.getPasoActual());
-        sesionUsuario.setAsientosSeleccionados(sesionUsuarioRequest.getAsientosSeleccionados().stream()
-                .map(asientoVendidoRequest -> {
-                    AsientoVendido asientoVendido = new AsientoVendido();
-                    asientoVendido.setFila(asientoVendidoRequest.getFila());
-                    asientoVendido.setColumna(asientoVendidoRequest.getColumna());
-                    asientoVendido.setPersona(asientoVendidoRequest.getPersona());
-                    return asientoVendido;
-                }).collect(Collectors.toList()));
+        if (sesionUsuarioRequest.getAsientosSeleccionados() != null) {
+            sesionUsuario.setAsientosSeleccionados(sesionUsuarioRequest.getAsientosSeleccionados().stream()
+                    .map(asientoVendidoRequest -> {
+                        AsientoVendido asientoVendido = new AsientoVendido();
+                        asientoVendido.setFila(asientoVendidoRequest.getFila());
+                        asientoVendido.setColumna(asientoVendidoRequest.getColumna());
+                        asientoVendido.setPersona(asientoVendidoRequest.getPersona());
+                        return asientoVendido;
+                    }).collect(Collectors.toList()));
+        }
 
         return sesionUsuario;
     }

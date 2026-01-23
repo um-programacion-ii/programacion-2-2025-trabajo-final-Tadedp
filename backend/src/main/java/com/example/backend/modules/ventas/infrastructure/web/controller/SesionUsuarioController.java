@@ -35,4 +35,10 @@ public class SesionUsuarioController {
 
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping
+    public ResponseEntity<SesionUsuario> eliminarEstadoSesion(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        sesionUsuarioService.eliminarSesion(userDetails.getId());
+        return ResponseEntity.ok().build();
+    }
 }

@@ -24,6 +24,7 @@ public class SesionUsuarioMapper {
         sesionUsuarioEntity.setEventoId(sesionUsuario.getEventoId());
         sesionUsuarioEntity.setPasoActual(sesionUsuario.getPasoActual());
         sesionUsuarioEntity.setUltimaModificacion(sesionUsuario.getUltimaModificacion());
+        sesionUsuarioEntity.setFechaCreacion(sesionUsuario.getFechaCreacion());
 
         try {
             String json = objectMapper.writeValueAsString(sesionUsuario.getAsientosSeleccionados());
@@ -54,7 +55,8 @@ public class SesionUsuarioMapper {
                 sesionUsuarioEntity.getEventoId(),
                 sesionUsuarioEntity.getPasoActual(),
                 asientos,
-                sesionUsuarioEntity.getUltimaModificacion()
+                sesionUsuarioEntity.getUltimaModificacion(),
+                sesionUsuarioEntity.getFechaCreacion()
         );
     }
 }

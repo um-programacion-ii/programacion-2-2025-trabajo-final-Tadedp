@@ -18,4 +18,5 @@ public class SesionUsuario {
     private String pasoActual;
     private List<AsientoVendido> asientosSeleccionados = new ArrayList<>();
     private Instant ultimaModificacion;
+    private Instant fechaCreacion;
 }
